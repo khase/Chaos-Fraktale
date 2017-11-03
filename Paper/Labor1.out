@@ -1,0 +1,11 @@
+\BOOKMARK [1][-]{section.1}{Einleitung}{}% 1
+\BOOKMARK [1][-]{section.2}{Codeanalyse}{}% 2
+\BOOKMARK [1][-]{section.3}{Testfolge}{}% 3
+\BOOKMARK [1][-]{section.4}{Performance-Messung}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Erste Messung}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Zweite Messung}{section.4}% 6
+\BOOKMARK [1][-]{section.5}{Auswertung}{}% 7
+\BOOKMARK [1][-]{section.6}{Anhang}{}% 8
+\BOOKMARK [2][-]{subsection.6.1}{Code}{section.6}% 9
+\BOOKMARK [2][-]{subsection.6.2}{Zustandsautomat}{section.6}% 10
+\BOOKMARK [3][-]{subsubsection.6.2.1}{Testfolge f\374r die vollst\344ndige Zustands\374bergangsabdeckung}{subsection.6.2}% 11
