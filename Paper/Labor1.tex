@@ -84,14 +84,20 @@ Die hier angegebene Vorschrift Prüft die beiden Pixel auf ungleichheit.
 Betrachtet man nun den Wert ,,1`` als ungerade Zahl und den Wert ,,0`` als gerade, so ergibt sich mit beiden Vorschriften die gleiche logik.
 
 \section{Aufgabe 2}
- \begin{tabular}{cccccc}
-  \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red}\\
-  \cellcolor{red} & \cellcolor{black} & ? & ? & \cellcolor{red} & ?\\
-  \cellcolor{red} & ? & \cellcolor{black} & \cellcolor{red} & ? & ?\\
-  \cellcolor{red} & ? & \cellcolor{red} & \cellcolor{black} & ? & ?\\
-  \cellcolor{red} & \cellcolor{red} & ? & ? & \cellcolor{black} & ?\\
-  \cellcolor{red} & ? & ? & ? & ? & \cellcolor{black}\\
+ \begin{tabular}{ccccccc}
+    & 0 & 1 & 2 & 3 & 4 & 5\\
+  0 & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red}\\
+  1 & \cellcolor{red} & \cellcolor{black} & ? & ? & \cellcolor{red} & ?\\
+  2 & \cellcolor{red} & ? & \cellcolor{black} & \cellcolor{red} & ? & ?\\
+  3 & \cellcolor{red} & ? & \cellcolor{red} & \cellcolor{black} & ? & ?\\
+  4 & \cellcolor{red} & \cellcolor{red} & ? & ? & \cellcolor{black} & ?\\
+  5 & \cellcolor{red} & ? & ? & ? & ? & \cellcolor{black}\\
  \end{tabular}
+ \\
+ \\
+In der Diagonalen (0, 0) bis (n, n) treffen immer zwei gleiche Zahlen aufeinanden, sodass bei einer Bitweisen Verundung ,,\&`` wieder diese Zahl rauskommt. Da nur die Zahl ,,0`` Rot wird ist in dieser diagonalen jeder Pixel (mit Ausnahme des ersten) Schwarz.
+\\
+In der Diagonalen (0, n - 1) bis (n - 1, 0) - wobei n eine Zweierpotenz ist - sind die Binärdarstellungen der beiden Zahlen immer genaue Binärkomplementäre, wodurch bei der Bitweisen Verundung ,,\&`` immer eine ,,0`` rauskommt. Dadurch sind hier alle pixel Rot.
 
 \section{Aufgabe 3}
 \subsection*{a}
