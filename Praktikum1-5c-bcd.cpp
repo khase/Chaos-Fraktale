@@ -21,8 +21,6 @@ int intToBCD(int i) {
 
 	int bcd = (a << 8) | (b << 4) | (c << 0);
 
-	//std::cout << i << " -> " << a << " - " << b << " - " << c << " => " << bcd << std::endl;
-
 	return bcd;
 }
 

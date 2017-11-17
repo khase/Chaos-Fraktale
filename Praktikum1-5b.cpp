@@ -36,7 +36,7 @@ int main() {
 	std::cout << "Calculate matrix" << std::endl;
 	for (int r = 1; r < ROWS; r++) {
 		for (int c = 1; c < COLLUMNS; c++) {
-			buffer[r][c] = (buffer[r-1][c] + buffer[r-1][c-1]) % 64;
+			buffer[r][c] = (buffer[r-1][c] + buffer[r-1][c-1]) % 10;
 		}
 	}
 	auto t1 = Time::now();
