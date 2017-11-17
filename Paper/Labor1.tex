@@ -15,6 +15,7 @@
 \usepackage{chngcntr}
 \usepackage{hyperref}
 \usepackage{caption}
+\usepackage{colortbl}
 
 \counterwithin{figure}{section}
 
@@ -54,9 +55,9 @@
 	\huge{Praktikum}\\
 \end{center}
 
-\begin{center}
-	\Huge{\textbf{Praktikumsaufgabe 1}} 
-\end{center}
+%\begin{center}
+%	\Huge{\textbf{Praktikum 1}} 
+%\end{center}
 
 
 \vspace{6cm}
@@ -76,43 +77,59 @@
 \end{titlepage}
 %%%%%%%%%%%%  DECKBLATT ENDE  %%%%%%%%%%%%%%5
 
-\tableofcontents
-\newpage
-In diesem Laborversuch soll ein System auf dessen Echtzeiteigenschaften Untersucht werden. Hierzu werden mittels des Messtools von Keil \textmu{}Vision die Ausführungszeiten gemessen und daraufhin überprüft, ob sie kleiner als die obere Schranke von 400 \textmu{}s sind. Als Anwendung dient hierbei die in der Laboraufgabe 1 entwickelte Fahrstuhlsteuerung. 
-\section{Einleitung}
-In diesem Laborversuch soll ein Nachweise echter Echtzeiteigenschaften erfolgen. Dies ist deshalb so wichtig, weil es bei eingebetteten Systemen nicht ohne weiteres Möglich ist neue Software aufzuspielen und so nachträglich Softwarefehler zu beheben. Weiterhin macht die in der Regel hohe Stückzahl ein nachträgliches Austauschen der 
-\newpage
-\section{Codeanalyse}
+\section{Aufgabe 1}
+Die in Aufgabe 3 verwendete Formel (a + b) gibt, wenn genau einer der Eingabewerte ungerade ist auch ein ungerades Ergebnis aus. Werden zwei gerade oder zwei ungerade Werte eingegeben, so wird das Ergebnis zwangsläufig gerade.
+\\
+Die hier angegebene Vorschrift Prüft die beiden Pixel auf ungleichheit.
+Betrachtet man nun den Wert ,,1`` als ungerade Zahl und den Wert ,,0`` als gerade, so ergibt sich mit beiden Vorschriften die gleiche Logik.
 
-%\begin{center}
-%	\includegraphics[scale=1]{Screens/switch_case_ausgabefkt.jpg}
-%	\captionof{figure}{Ausgabefunktion der Berechnungsphase per switch-case-Anweisung}
-%	\label{fig:switchCaseAusgabe}
-%\end{center}
+\section{Aufgabe 2}
+ \begin{tabular}{ccccccc}
+    & 0 & 1 & 2 & 3 & 4 & 5\\
+  0 & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red} & \cellcolor{red}\\
+  1 & \cellcolor{red} & \cellcolor{black} & ? & ? & \cellcolor{red} & ?\\
+  2 & \cellcolor{red} & ? & \cellcolor{black} & \cellcolor{red} & ? & ?\\
+  3 & \cellcolor{red} & ? & \cellcolor{red} & \cellcolor{black} & ? & ?\\
+  4 & \cellcolor{red} & \cellcolor{red} & ? & ? & \cellcolor{black} & ?\\
+  5 & \cellcolor{red} & ? & ? & ? & ? & \cellcolor{black}\\
+ \end{tabular}
+ \\
+ \\
+In der Diagonalen (0, 0) bis (n, n) treffen immer zwei gleiche Zahlen aufeinander, sodass bei einer Bitweisen Verundung ,,\&`` wieder diese Zahl herauskommt. Da nur die Zahl ,,0`` Rot wird ist in dieser diagonalen jeder Pixel (mit Ausnahme des ersten) Schwarz.
+\\
+In der Diagonalen (0, n - 1) bis (n - 1, 0) - wobei n eine Zweierpotenz ist - sind die Binärdarstellungen der beiden Zahlen immer genaue Binärkomplementäre, wodurch bei der Bitweisen Verundung ,,\&`` immer eine ,,0`` herauskommt. Dadurch sind hier alle Pixel Rot.
+
+\section{Aufgabe 3}
+\subsection*{a)}
+Betrachtet man den gezeigten ,,Menger-Teppich`` genau, so fällt einem auf, dass er genau 8-mal in sich selbst enthalten ist und so die Seiten dreiteilt.
+\\
+ \\
+ \begin{tabular}{|c|c|c|} \hline
+	  1 & 2 & 3 \\ \hline
+	  8 &   & 4 \\ \hline
+	  7 & 6 & 5 \\ \hline
+ \end{tabular}
+ \\
+ \\
+ Nach kurzen probieren mit den 4 Eckpunkten und dem Code aus Aufgabe 1, sind wir auf die Idee gekommen statt immer den Mittelpunkt als neuen Punkt zu wählen die Distanz zu dritteln (wie oben aufgefallen). Dabei sind in den Bereichen 2, 4, 6 und 8 Allerdings Freiräume entstanden. Also haben wir zu den 4 Eckpunkten die Mittelpunkte berechnet und als zusätzliche Randpunkte zur Verfügung gestellt.
+
+\subsection*{b)}
+Das Problem bei dieser Aufgabe ist, das rasante Wachstum des Pascalschen Dreiecks. Die Zahlen werden so groß, dass sie nicht mehr in den Datentyp Integer \glqq passen\grqq und es zu einem Überlauf kommt. Da beim Überlauf das Vorzeichenbit gesetzt wird, ergibt die Summe zweier positiver großer Zahlen ein negatives Ergebnis.\\
+Um einen Überlauf zu vermeiden, wurde nicht die Summe im Array gespeichert, sondern der entsprechende Modulowert. D.h. es wurde die Summe gebildet, diese Modulo einer natürlichen zahl gerechnet und das Ergebnis dann im Array abgelegt. Das hatte zum Ergebnis, dass die Zahlenwerte innerhalb des Arrays niemals größer wurden als der Wert mit dem Modulo gerechnet wurde.\\
 \ \\
-
-
-\newpage
-\section{Testfolge}
-
+\begin{center}
+	\includegraphics[scale=0.5]{Screens/Prim}
+	\captionof{figure}{Ausgabe mit Modulo 5}
+	\label{fig:prim}
+\end{center}
 \ \\
-\section{Auswertung}
-\section{Anhang}
-\subsection{Code}
-%HIER KÖNNEN WIR DEN CODE LINKEN!
-\lstinputlisting
-    [caption={Quellcode}
-       \label{lst:cClass},
-       captionpos=t,language=C]
- {Screens/main.c}
-\subsection{Zustandsautomat}
+\begin{center}
+	\includegraphics[scale=0.5]{Screens/noPrim.jpg}
+	\captionof{figure}{Ausgabe mit Modulo 4}
+	\label{fig:noprim}
+\end{center}
+Es fällt beim Vergleich der Ausgaben zunächst auf, dass bei Primzahlen am unteren Rand nur Teile von Dreiecken vorhanden sind (Siehe gelbe Pfeile in Abbildung 3.1). Wohingegen bei Zahlen die keine Primzahl sind, alle entstandenen Dreiecke vollständig im Bild sind. Eine weitere Besonderheit bei der Ausgabe mit Primzahlen ist: Über den Dreiecken sind so viele kleine Dreiecke in Reihe wie die um eins verringerte Zahl mit der Modulo gerechnet wurde. Das grünes Rechteck in Abbildung 3.1. Zuletzt ist anzumerken, dass die Ausgabe bei Primzahlen geordneter wirkt, wohingegen sie bei allen anderen Zahlenwerte deutlich fragmentierter wirkt.
+\subsection*{c)}
+Werden wir machen!
 
-%\begin{center}
-%	\includegraphics[scale=0.3]{Screens/IMG_4365.jpg}
-%	\captionof{figure}{Zustandsautomat der Fahrstuhlsteuerung}
-%	\label{fig:automat}
-%\end{center}
-
-\subsubsection{Testfolge für die vollständige Zustandsübergangsabdeckung}
-\hilight{HIER DIE TABELLE mit dem Label Zustand EINFÜGEN! DANKE!}
 \end{document}
