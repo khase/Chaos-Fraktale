@@ -78,10 +78,31 @@ int main(int numArgs, char** Args) {
 	//window.drawAxis();
 	window.show();
 
-	std::cout << "Please set a point on the window" << std::endl;
-	cf::Point point1 = window.waitMouseInput();
-	window.drawCircle(point1, 3, -1 /*fill circle*/, cf::Color::WHITE);
-	window.show();
+	//std::cout << "Please set a point on the window" << std::endl;
+	//cf::Point point1 = window.waitMouseInput();
+	//window.drawCircle(point1, 3, -1 /*fill circle*/, cf::Color::WHITE);
+	//window.show();
+
+	cf::Point point1;
+	glm::vec3 fixpunkt;
+	glm::mat3x3 m;
+	for (std::size_t i = 0; i < ifs.getNumTransformations(); ++i) {
+		m = ifs.getTransformation(i);
+
+		float xZaehler = -m[1][1] * (m[1][0] - 1) + m[0][1] * m[1][2];
+		float xNenner = (m[0][0] - 1) * (m[1][0] - 1) - m[0][1] * m[0][2];
+
+		float yZaehler = -m[1][2] * (m[0][0] - 1) + m[0][2] * m[1][1];
+		float yNenner = (m[0][0] - 1) * (m[1][0] - 1) - m[0][1] * m[0][2];
+
+		if (yNenner != 0 && xNenner != 0) {
+			fixpunkt.x = xZaehler / xNenner;
+			fixpunkt.y = yZaehler / yNenner;
+			fixpunkt.z = 1;
+			point1 = cf::Point(fixpunkt.x, fixpunkt.y);
+			break;
+		} 
+	}
 
 	//std::mt19937 generator = std::mt19937(std::random_device().operator()());
 	//std::uniform_int_distribution<int> random(0, ifs.getNumTransformations() - 1);
