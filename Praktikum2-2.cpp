@@ -15,7 +15,8 @@ int main(int numArgs, char** Args) {
 		//filePath = "../../chaos_files/KRISTALL_1.IFS";
 		//filePath = "../../chaos_files/MENGER_TEPPICH.IFS";
 		//filePath = "../../chaos_files/SIERP_Verwandter_2.IFS";
-		filePath = "../../chaos_files/FARN_1.IFS";
+		//filePath = "../../chaos_files/FARN_1.IFS";
+		filePath = "../../solutions/ifs-test.IFS";
 	}
 	else {
 		filePath = Args[0];

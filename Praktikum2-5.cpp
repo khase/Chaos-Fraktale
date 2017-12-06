@@ -47,7 +47,7 @@ int main(int numArgs, char** Args) {
 				v = transform * v;
 
 				cf::Point pNext = cf::Point(v.x, v.y);
-				if (std::pow(pNext.x, 2) + std::pow(pNext.y, 2) > 100) {
+				if (std::pow(pNext.x, 2) + std::pow(pNext.y, 2) > 10000) {
 					div = i;
 					break;
 				}
