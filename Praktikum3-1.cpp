@@ -3,6 +3,13 @@
 
 using namespace std;
 
+glm::mat3x3 getRotationMatrix(double grad) {
+	glm::mat3x3 m = {	cos(grad * (3.141593 / 180.0)),		sin(grad * (3.141593 / 180.0)),		0,
+						-sin(grad * (3.141593 / 180.0)),	cos(grad * (3.141593 / 180.0)),		0,
+						0,									0,									1 };
+	return m;
+}
+
 int main(int argc, char** argv) {
 	// receive file name/path
 	string filePath;
@@ -38,7 +45,7 @@ int main(int argc, char** argv) {
 
 	cf::WindowVectorized window(300, ls.getRangeX(), ls.getRangeY(), "LSystem", cf::Color::ORANGE);
 	
-	for (int depth = 1; depth <= 5; depth++) {
+	for (int depth = 1; depth <= 20; depth++) {
 		if (ls.clearWindowEachTime()) {
 			window.clear(cf::Color::ORANGE);
 		}
@@ -46,9 +53,7 @@ int main(int argc, char** argv) {
 		cf::Point cur = cf::Point(0, 0);
 		cf::Point dir = cf::Point(1, 0) * pow(ls.getScale(), depth); 
 		glm::vec3 v(dir.x, dir.y, 1);
-		glm::mat3x3 m = {	cos(ls.getStartAngle() * (3.141593 / 180.0)),	sin(ls.getStartAngle() * (3.141593 / 180.0)),	0,
-							-sin(ls.getStartAngle() * (3.141593 / 180.0)),	cos(ls.getStartAngle() * (3.141593 / 180.0)),	0,
-							0,												0,												1 };
+		glm::mat3x3 m = getRotationMatrix(ls.getStartAngle());
 		v = m * v;
 		dir = cf::Point(v.x, v.y);
 		const cf::LSystem_Controller con(depth, ls);
@@ -66,17 +71,13 @@ int main(int argc, char** argv) {
 			}
 			else if (e == '+') {
 				glm::vec3 v(dir.x, dir.y, 1);
-				glm::mat3x3 m = { cos(ls.getAdjustmentAngle() * (3.141593 / 180.0)),		sin(ls.getAdjustmentAngle() * (3.141593 / 180.0)),		0,
-									-sin(ls.getAdjustmentAngle() * (3.141593 / 180.0)),		cos(ls.getAdjustmentAngle() * (3.141593 / 180.0)),		0,
-									0,														0,														1 };
+				glm::mat3x3 m = getRotationMatrix(ls.getAdjustmentAngle());
 				v = m * v;
 				dir = cf::Point(v.x, v.y);
 			}
 			else if (e == '-') {
 				glm::vec3 v(dir.x, dir.y, 1);
-				glm::mat3x3 m = { cos(-ls.getAdjustmentAngle() * (3.141593 / 180.0)),		sin(-ls.getAdjustmentAngle() * (3.141593 / 180.0)),		0,
-									-sin(-ls.getAdjustmentAngle() * (3.141593 / 180.0)),	cos(-ls.getAdjustmentAngle() * (3.141593 / 180.0)),		0,
-									0,														0,														1 };
+				glm::mat3x3 m = getRotationMatrix(-ls.getAdjustmentAngle());
 				v = m * v;
 				dir = cf::Point(v.x, v.y);
 			}
