@@ -76,24 +76,28 @@ public:
 		this->drawAxis(2.f);
 
 		cf::Color lineColor = cf::Color().RandomColor();
-		glm::vec4 cur = glm::vec4(0, 0, 0, 0);
+		glm::vec4 cur = glm::vec4(0, 0, 0, 1);
 		glm::vec4 dir = glm::vec4(1, 0, 0, 0) * pow(this->ls.getScale(), depth);
-		glm::vec3 v(dir.x, dir.y, 1);
-		glm::mat4x4 trans = getRotationMatrixZ(0);// this->ls.getStartAngle());
-		//dir = m * dir;
+		glm::mat4x4 trans = glm::rotate<float>(this->ls.getStartAngle() * (3.141593 / 180.0), glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4x4 localTrans = getRotationMatrixX(0);
 
 		const cf::LSystem_Controller con(depth, this->ls);
 		int i = 0;
 		vector<glm::vec4> posStack;
 		vector<glm::vec4> dirStack;
+		vector<glm::mat4x4> lTransStack;
+		//std::cout << endl;
 		for (const auto& e : con) {
+			//std::cout << e;
 			if ((e >= 'a' && e <= 'z') || (e >= 'A' && e < 'X')) {
 				if (e >= 'A' && e <= 'Z') {
-					this->drawCylinder(trans * dir, cur, ((i == debug) ? 2 : 1) * 0.02, lineColor);
+					//this->drawCylinder(trans * dir, cur, ((i == debug) ? 2 : 1) * 0.02, lineColor);
+					this->drawCylinder(trans * localTrans * glm::vec4(pow(this->ls.getScale(), depth), 0, 0, 1), cur, ((i == debug) ? 2 : 1) * 0.02, lineColor);
 				}
-				cur = cur + (trans * dir);
+				//cur = cur + (trans * dir);
+				cur = cur + trans * localTrans * glm::vec4(pow(this->ls.getScale(), depth), 0, 0, 1);
 				i++;
-				std::cout << i << "/" << debug << endl;
+				debug = i + 1;
 				if (i > debug) {
 					break;
 				}
@@ -101,40 +105,50 @@ public:
 			else if (e == '+') {
 				glm::mat4x4 m = getRotationMatrixZ(this->ls.getAdjustmentAngle());
 				dir = m * dir;
+				localTrans *= glm::rotate<float>(this->ls.getAdjustmentAngle() * (3.141593 / 180.0), glm::vec3(0.0f, 0.0f, 1.0f));
 			}
 			else if (e == '-') {
 				glm::mat4x4 m = getRotationMatrixZ(-this->ls.getAdjustmentAngle());
 				dir = m * dir;
+				localTrans *= glm::rotate<float>(-this->ls.getAdjustmentAngle() * (3.141593 / 180.0), glm::vec3(0.0f, 0.0f, 1.0f));
 			}
 			else if (e == '&') {
 				glm::mat4x4 m = getRotationMatrixY(this->ls.getAdjustmentAngle());
 				dir = m * dir;
+				localTrans *= glm::rotate<float>(this->ls.getAdjustmentAngle() * (3.141593 / 180.0), glm::vec3(0.0f, 1.0f, 0.0f));
 			}
 			else if (e == '^') {
 				glm::mat4x4 m = getRotationMatrixY(-this->ls.getAdjustmentAngle());
 				dir = m * dir;
+				localTrans *= glm::rotate<float>(-this->ls.getAdjustmentAngle() * (3.141593 / 180.0), glm::vec3(0.0f, 1.0f, 0.0f));
 			}
 			else if (e == '*') {
 				glm::mat4x4 m = getRotationMatrixX(this->ls.getAdjustmentAngle());
 				dir = m * dir;
+				localTrans *= glm::rotate<float>(this->ls.getAdjustmentAngle() * (3.141593 / 180.0), glm::vec3(1.0f, 0.0f, 0.0f));
 			}
 			else if (e == '/') {
 				glm::mat4x4 m = getRotationMatrixX(-this->ls.getAdjustmentAngle());
 				dir = m * dir;
+				localTrans *= glm::rotate<float>(-this->ls.getAdjustmentAngle() * (3.141593 / 180.0), glm::vec3(1.0f, 0.0f, 0.0f));
 			}
 			else if (e == '|') {
 				glm::mat4x4 m = getRotationMatrixZ(180);
 				dir = m * dir;
+				localTrans *= glm::rotate<float>(180 * (3.141593 / 180.0), glm::vec3(1.0f, 0.0f, 0.0f));
 			}
 			else if (e == '[') {
 				posStack.push_back(cur);
 				dirStack.push_back(dir);
+				lTransStack.push_back(localTrans);
 			}
 			else if (e == ']') {
 				cur = posStack.back();
 				posStack.pop_back();
 				dir = dirStack.back();
 				dirStack.pop_back();
+				localTrans = lTransStack.back();
+				lTransStack.pop_back();
 			}
 			else if ((e >= 'X' && e <= 'Z')) {
 				// platzhalter
@@ -146,8 +160,8 @@ public:
 	}
 
 	void handleKeyboardInput(unsigned char key, int x, int y) override {
-		printf("Key: %c pressed at mouse position: %d, %d\r", key, x, y);
-		fflush(stdout);
+		//printf("Key: %c pressed at mouse position: %d, %d\r", key, x, y);
+		//fflush(stdout);
 
 		switch (key) {
 			// change cylinder positions
